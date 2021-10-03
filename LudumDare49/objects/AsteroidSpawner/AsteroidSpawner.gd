@@ -11,6 +11,7 @@ func _ready():
 	asteroids = [
 		load("res://objects/Asteroid/asteroid.tscn"),
 		load("res://objects/Asteroid/asteroid_l.tscn"),
+		load("res://objects/Asteroid/asteroid_x_l.tscn"),
 	]
 
 

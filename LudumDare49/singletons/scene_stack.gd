@@ -20,3 +20,12 @@ func pop(anim_player : AnimationPlayer = null):
 		get_tree().get_root().set_disable_input(false)
 	stack.pop_front()
 	assert(get_tree().change_scene_to(stack.front()) == 0)
+
+func replace(ps : PackedScene, anim_player : AnimationPlayer = null):
+	stack.pop_front()
+	if anim_player:
+		get_tree().get_root().set_disable_input(true)
+		yield(anim_player, "animation_finished")
+		get_tree().get_root().set_disable_input(false)
+	stack.push_front(ps)
+	assert(get_tree().change_scene_to(ps) == 0)

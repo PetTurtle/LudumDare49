@@ -1,5 +1,7 @@
 extends RigidBody2D
 
+signal died
+
 export(NodePath) var earth_path: NodePath
 export(Color) var active_color: Color
 export(Color) var inactive_color: Color
@@ -18,6 +20,7 @@ onready var fire_2_s = $Fire2Sound
 onready var earth: Planet = get_node(earth_path)
 onready var rood_scene := preload("res://objects/RadarRood/RadarRood.tscn")
 onready var bullet_scene := preload("res://objects/PlayerBullet/PlayerBullet.tscn")
+onready var death_explosion := preload("res://objects/Explosions/player_die.tscn")
 
 
 func _init():
@@ -76,7 +79,9 @@ func _on_SignalDelay_timeout():
 		controller.active = false
 
 func _exit_tree():
+	Globals.effects.spawn(death_explosion, global_position, rotation)
 	Globals.player = null
+	emit_signal("died")
 
 
 func _on_Fire1_timeout():

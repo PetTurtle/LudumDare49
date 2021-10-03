@@ -14,7 +14,7 @@ func _ready():
 
 func _process(delta):
 	if active:
-		texture_scale = min(1, texture_scale + delta * 10)
+		texture_scale = min(0.5, texture_scale + delta * 10)
 	else:
 		texture_scale = max(0, texture_scale - delta * 10)
 

@@ -2,17 +2,16 @@
 
 [ext_resource path="res://components/sprite_2d.gd" type="Script" id=1]
 [ext_resource path="res://objects/Asteroid/asteroid.gd" type="Script" id=2]
-[ext_resource path="res://assets/images/asteroid_large.png" type="Texture" id=3]
+[ext_resource path="res://assets/images/asteroid_x_large.png" type="Texture" id=3]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 8.14937
+radius = 13.9304
 
 [node name="Asteroid" type="RigidBody2D"]
 collision_layer = 4
 collision_mask = 3
 script = ExtResource( 2 )
 c_polygon_path = NodePath("CollisionPolygon2D")
-size = 0
 
 [node name="Sprite2D" type="Sprite" parent="."]
 texture = ExtResource( 3 )
@@ -23,14 +22,14 @@ root_path = NodePath("..")
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 position = Vector2( 0.052557, 0.210224 )
 build_mode = 1
-polygon = PoolVector2Array( -3.04542, 6.38906, 0.738615, 6.49417, 6.78256, 1.76413, 6.94023, -1.96736, 1.52696, -6.96018, -4.67466, -6.85507, -7.88058, -3.64915, -7.88058, -0.495785, -5.56811, 3.60359 )
+polygon = PoolVector2Array( -14.818, -4.91049, -14.8705, 0.292555, -9.66749, 9.59498, -7.35502, 10.3833, -2.46731, 11.487, 1.73718, 11.487, 5.62633, 7.12484, 6.20444, 4.81238, 9.93592, 0.292555, 9.98848, -7.48574, 2.63063, -13.0567, -3.72865, -13.2144, -7.40758, -9.16753, -11.1391, -8.90475 )
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2( -0.683228, -0.420448 )
+position = Vector2( -1.99713, -0.893454 )
 shape = SubResource( 1 )
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]

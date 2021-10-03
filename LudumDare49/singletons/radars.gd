@@ -9,6 +9,7 @@ onready var signal_line_scene := preload("res://objects/SignalLine/SignalLine.ts
 
 func _physics_process(_delta):
 	if Globals.player == null:
+		_clear_lines()
 		return
 	
 	aStar.clear()

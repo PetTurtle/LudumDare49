@@ -1,14 +1,18 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://components/sprite_2d.gd" type="Script" id=1]
 [ext_resource path="res://assets/images/asteroid.png" type="Texture" id=2]
 [ext_resource path="res://objects/Asteroid/asteroid.gd" type="Script" id=3]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 5.52416
 
 [node name="Asteroid" type="RigidBody2D"]
 collision_layer = 4
 collision_mask = 3
 script = ExtResource( 3 )
 c_polygon_path = NodePath("CollisionPolygon2D")
+size = -1
 
 [node name="Sprite2D" type="Sprite" parent="."]
 texture = ExtResource( 2 )
@@ -19,3 +23,12 @@ root_path = NodePath("..")
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 build_mode = 1
 polygon = PoolVector2Array( -4.72721, -0.338118, -4.67466, 2.44735, -2.78264, 4.44448, 0.79117, 4.65471, 4.68032, -1.65202, 1.99996, -4.80538 )
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource( 1 )
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]

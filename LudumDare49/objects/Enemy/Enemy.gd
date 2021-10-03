@@ -3,8 +3,10 @@ extends Area2D
 var speed := 15
 var separation := 16
 var velocity := Vector2.ZERO
+var health := 4
 
 onready var bullet_scene := preload("res://objects/EnemyBullet/EnemyBullet.tscn")
+onready var explode_scene := preload("res://objects/Explosions/enemy_die.tscn")
 
 func _physics_process(delta):
 	for node in Tracker.tracked:
@@ -21,7 +23,12 @@ func _physics_process(delta):
 	position += velocity * delta
 
 func damage(amount: int):
-	queue_free()
+	health -= amount
+	if health <= 0:
+		if amount < 10:
+			Globals.add_score(1)
+		Globals.effects.spawn(explode_scene, global_position, rotation)
+		queue_free()
 
 func _on_Fire_timeout():
 	var bullet = bullet_scene.instance()
@@ -30,3 +37,4 @@ func _on_Fire_timeout():
 	bullet.global_position = global_position + shoot_dir * 6
 	bullet.linear_velocity = velocity + shoot_dir * 50
 	bullet.rotation = rotation
+

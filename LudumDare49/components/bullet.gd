@@ -1,11 +1,15 @@
 extends Area2D
 
 export(int) var damage := 1
+export(String) var explosion_path: String
+
+var explosion_scene: PackedScene
 
 onready var linear_velocity := Vector2.ZERO
 
 
 func _ready():
+	explosion_scene = load(explosion_path)
 	connect("body_entered", self, "on_collision")
 	connect("area_entered", self, "on_collision")
 
@@ -16,5 +20,6 @@ func on_collision(body: Object):
 	if body.has_method("damage"):
 		body.damage(damage)
 	
+	Globals.effects.spawn(explosion_scene, global_position, rotation)
 	queue_free()
 

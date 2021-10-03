@@ -4,6 +4,7 @@ export(float) var spawn_distance := 400
 export(NodePath) var objects_path: NodePath
 
 var enemies: Array
+onready var timer: Timer = $Timer
 onready var objects = get_node(objects_path)
 
 func _ready():
@@ -18,3 +19,4 @@ func _on_Timer_timeout():
 	var enemy = enemies[rand_range(0, enemies.size())].instance()
 	objects.add_child(enemy)
 	enemy.global_position = spawn_vector
+	timer.wait_time = max(4, timer.wait_time - 0.25)

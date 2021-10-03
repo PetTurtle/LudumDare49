@@ -7,10 +7,12 @@ export(NodePath) var fire_bar_1_path: NodePath
 export(NodePath) var fire_bar_2_path: NodePath
 export(Color) var active_color: Color
 export(Color) var inactive_color: Color
+export(Color) var power_up_color: Color
 
 var active := true
 var fire_1_ready := true
 var fire_2_ready := true
+var in_power_up := false
 onready var sprite := $Sprite2D
 onready var controller := $MovementController
 onready var signal_delay := $SignalDelay
@@ -19,6 +21,8 @@ onready var fire_1_t = $Fire1
 onready var fire_2_t = $Fire2
 onready var fire_1_s = $Fire1Sound
 onready var fire_2_s = $Fire2Sound
+onready var power_up_t = $PowerUPTime
+onready var power_up_s = $PowerUpSound
 onready var fire_bar_1: ProgressBar = get_node(fire_bar_1_path)
 onready var fire_bar_2: ProgressBar = get_node(fire_bar_2_path)
 onready var earth: Planet = get_node(earth_path)
@@ -39,6 +43,10 @@ func _ready():
 	cam.smoothing_enabled = true
 
 func _process(delta):
+	if in_power_up:
+		sprite.modulate = power_up_color
+		controller.active = true
+		
 	fire_bar_1.max_value = fire_1_t.wait_time
 	fire_bar_1.value = fire_1_t.wait_time - fire_1_t.time_left
 	fire_bar_2.max_value = fire_2_t.wait_time
@@ -71,6 +79,11 @@ func _process(delta):
 		fire_2_s.play()
 
 func set_radar_signal(state: bool):
+	if in_power_up:
+		sprite.modulate = power_up_color
+		active = state
+		return
+	
 	if active != state:
 		active = state
 		if state:
@@ -81,6 +94,15 @@ func set_radar_signal(state: bool):
 
 func damage(amount: int):
 	queue_free()
+
+func power_up():
+	active = true
+	controller.active = true
+	fire_1_t.wait_time = 0.08
+	power_up_t.start()
+	power_up_s.play()
+	in_power_up = true
+	sprite.modulate = power_up_color
 
 func _on_SignalDelay_timeout():
 	if active == false:
@@ -99,3 +121,14 @@ func _on_Fire1_timeout():
 
 func _on_Fire2_timeout():
 	fire_2_ready = true
+
+
+func _on_PowerUPTime_timeout():
+	fire_1_t.wait_time = 0.25
+	in_power_up = false
+	sprite.modulate = active_color
+	if active:
+		sprite.modulate = active_color
+		controller.active = active
+	else:
+		signal_delay.start()

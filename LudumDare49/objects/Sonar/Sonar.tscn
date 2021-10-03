@@ -1,0 +1,49 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/audio/1000.wav" type="AudioStream" id=1]
+
+[sub_resource type="Animation" id=1]
+resource_name = "1"
+length = 2.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:playing")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath(".:volume_db")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, 2, -0.25, 0, 0.25, 0, -200, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.2, 1.1 )
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath(".:pitch_scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0, 1.2, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.2 )
+}
+
+[node name="Sonar" type="AudioStreamPlayer2D"]
+stream = ExtResource( 1 )
+volume_db = -167.052
+pitch_scale = 1.2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "1"
+anims/1 = SubResource( 1 )

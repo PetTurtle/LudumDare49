@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://components/sprite_2d.gd" type="Script" id=1]
 [ext_resource path="res://assets/images/player.png" type="Texture" id=2]
 [ext_resource path="res://components/movement_controller.gd" type="Script" id=3]
 [ext_resource path="res://objects/Player/player.gd" type="Script" id=4]
 [ext_resource path="res://assets/audio/fire.wav" type="AudioStream" id=5]
+[ext_resource path="res://assets/audio/powerup.wav" type="AudioStream" id=6]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 2.5
@@ -16,6 +17,7 @@ linear_damp = 2.0
 script = ExtResource( 4 )
 active_color = Color( 1, 1, 1, 1 )
 inactive_color = Color( 0.560784, 0.560784, 0.560784, 1 )
+power_up_color = Color( 0.972549, 0.74902, 0.160784, 1 )
 
 [node name="MovementController" type="Node" parent="."]
 script = ExtResource( 3 )
@@ -51,6 +53,15 @@ stream = ExtResource( 5 )
 [node name="Fire2Sound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 5 )
 
+[node name="PowerUPTime" type="Timer" parent="."]
+process_mode = 0
+wait_time = 2.5
+one_shot = true
+
+[node name="PowerUpSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 6 )
+
 [connection signal="timeout" from="SignalDelay" to="." method="_on_SignalDelay_timeout"]
 [connection signal="timeout" from="Fire1" to="." method="_on_Fire1_timeout"]
 [connection signal="timeout" from="Fire2" to="." method="_on_Fire2_timeout"]
+[connection signal="timeout" from="PowerUPTime" to="." method="_on_PowerUPTime_timeout"]

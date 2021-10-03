@@ -23,3 +23,8 @@ func on_collision(body: Object):
 	Globals.effects.spawn(explosion_scene, global_position, rotation)
 	queue_free()
 
+
+
+func _on_TimeOut_timeout():
+	Globals.effects.spawn(explosion_scene, global_position, rotation)
+	queue_free()

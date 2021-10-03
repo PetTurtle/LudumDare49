@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://scenes/game.gd" type="Script" id=1]
 [ext_resource path="res://objects/Transition/Transition.tscn" type="PackedScene" id=2]
@@ -29,11 +29,15 @@
 [ext_resource path="res://resources/fire_foreground.tres" type="StyleBox" id=27]
 [ext_resource path="res://resources/fire_background.tres" type="StyleBox" id=28]
 [ext_resource path="res://resources/fonts/mini_square.tres" type="DynamicFont" id=29]
+[ext_resource path="res://assets/audio/score.wav" type="AudioStream" id=30]
+[ext_resource path="res://components/ScoreAudio.gd" type="Script" id=31]
+[ext_resource path="res://resources/fonts/mini_square_no_outline.tres" type="DynamicFont" id=32]
+[ext_resource path="res://objects/Goal/Goal.tscn" type="PackedScene" id=33]
 
-[sub_resource type="Curve" id=5]
+[sub_resource type="Curve" id=1]
 _data = [ Vector2( 0, 0.0181818 ), 0.0, 4.23197, 0, 0, Vector2( 0.488889, 0.990909 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.0272727 ), -3.62338, 0.0, 0, 0 ]
 
-[sub_resource type="Gradient" id=6]
+[sub_resource type="Gradient" id=2]
 offsets = PoolRealArray( 0, 0.00936768, 0.983607, 1 )
 colors = PoolColorArray( 0.184314, 0.152941, 0.215686, 0, 0.184314, 0.152941, 0.215686, 1, 0.184314, 0.152941, 0.215686, 1, 0.184314, 0.152941, 0.215686, 0 )
 
@@ -47,6 +51,10 @@ radius = 18.4679
 pause_mode = 2
 script = ExtResource( 1 )
 
+[node name="DeathDelayTimer" type="Timer" parent="."]
+process_mode = 0
+one_shot = true
+
 [node name="Stars" type="CPUParticles2D" parent="."]
 pause_mode = 1
 z_index = -10
@@ -56,7 +64,7 @@ emission_rect_extents = Vector2( 600, 600 )
 gravity = Vector2( 0, 0 )
 scale_amount = 4.0
 scale_amount_random = 0.5
-scale_amount_curve = SubResource( 5 )
+scale_amount_curve = SubResource( 1 )
 color = Color( 1, 1, 1, 0.721569 )
 
 [node name="InnerAsteroids" type="CPUParticles2D" parent="."]
@@ -79,7 +87,7 @@ angle = 180.0
 angle_random = 0.5
 scale_amount = 10.0
 scale_amount_random = 0.5
-color_ramp = SubResource( 6 )
+color_ramp = SubResource( 2 )
 
 [node name="OuterAsteroids" type="CPUParticles2D" parent="."]
 pause_mode = 1
@@ -102,7 +110,7 @@ angle = 180.0
 angle_random = 0.5
 scale_amount = 20.0
 scale_amount_random = 0.5
-color_ramp = SubResource( 6 )
+color_ramp = SubResource( 2 )
 
 [node name="Background" type="Sprite" parent="."]
 modulate = Color( 0.203922, 0.192157, 0.278431, 1 )
@@ -127,86 +135,156 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Paused" type="VBoxContainer" parent="UI"]
+[node name="Paused" type="Control" parent="UI"]
 visible = false
-anchor_left = 0.5
 anchor_top = 0.5
-anchor_right = 0.5
+anchor_right = 1.0
 anchor_bottom = 0.5
-margin_left = -42.5
-margin_top = -17.0
-margin_right = 53.5
-margin_bottom = 23.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+margin_top = -104.0
+margin_bottom = 17.0
 
 [node name="Title" type="Label" parent="UI/Paused"]
-margin_right = 96.0
-margin_bottom = 18.0
+anchor_right = 1.0
+margin_bottom = 33.0
 custom_fonts/font = ExtResource( 21 )
 text = "Paused"
 align = 1
 valign = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/Paused"]
-margin_top = 22.0
-margin_right = 96.0
-margin_bottom = 34.0
-
-[node name="Exit" type="Button" parent="UI/Paused/HBoxContainer"]
-margin_right = 46.0
-margin_bottom = 12.0
-size_flags_horizontal = 3
-text = "Exit"
-
-[node name="Resume" type="Button" parent="UI/Paused/HBoxContainer"]
-margin_left = 50.0
-margin_right = 96.0
-margin_bottom = 12.0
-size_flags_horizontal = 3
-text = "Resume"
-
-[node name="GameOver" type="VBoxContainer" parent="UI"]
-visible = false
-anchor_left = 0.5
+[node name="HBoxContainer" type="VBoxContainer" parent="UI/Paused"]
 anchor_top = 0.5
-anchor_right = 0.5
+anchor_right = 1.0
 anchor_bottom = 0.5
-margin_left = -116.5
-margin_top = -27.5
-margin_right = 116.5
-margin_bottom = 27.5
+margin_top = 67.5
+margin_bottom = 150.5
+alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Resume" type="Button" parent="UI/Paused/HBoxContainer"]
+margin_top = 7.0
+margin_right = 640.0
+margin_bottom = 27.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 29 )
+text = "Resume"
+
+[node name="Restart" type="Button" parent="UI/Paused/HBoxContainer"]
+margin_top = 31.0
+margin_right = 640.0
+margin_bottom = 51.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 29 )
+text = "Restart"
+
+[node name="Exit" type="Button" parent="UI/Paused/HBoxContainer"]
+margin_top = 55.0
+margin_right = 640.0
+margin_bottom = 75.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 29 )
+text = "Exit"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GameOver" type="Control" parent="UI"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+
 [node name="Label" type="Label" parent="UI/GameOver"]
-margin_right = 233.0
-margin_bottom = 39.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_top = -108.0
+margin_bottom = -50.0
 custom_fonts/font = ExtResource( 21 )
 text = "Connection Lost!
 Game Over..."
 align = 1
 valign = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/GameOver"]
-margin_top = 43.0
-margin_right = 233.0
-margin_bottom = 55.0
-
-[node name="Exit" type="Button" parent="UI/GameOver/HBoxContainer"]
-margin_right = 114.0
-margin_bottom = 12.0
-size_flags_horizontal = 3
-text = "Exit"
+[node name="HBoxContainer" type="VBoxContainer" parent="UI/GameOver"]
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_top = 42.0
+margin_bottom = 86.0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Restart" type="Button" parent="UI/GameOver/HBoxContainer"]
-margin_left = 118.0
-margin_right = 233.0
-margin_bottom = 12.0
+margin_right = 640.0
+margin_bottom = 20.0
 size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 29 )
 text = "Restart"
+
+[node name="Exit" type="Button" parent="UI/GameOver/HBoxContainer"]
+margin_top = 24.0
+margin_right = 640.0
+margin_bottom = 44.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 29 )
+text = "Exit"
+
+[node name="GameWon" type="Control" parent="UI"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Label" type="Label" parent="UI/GameWon"]
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_top = -108.0
+margin_bottom = -50.0
+custom_fonts/font = ExtResource( 21 )
+text = "Victory!"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="VBoxContainer" parent="UI/GameWon"]
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_top = 23.0
+margin_bottom = 106.0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Continue" type="Button" parent="UI/GameWon/HBoxContainer"]
+margin_top = 7.0
+margin_right = 640.0
+margin_bottom = 27.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 29 )
+text = "Continue"
+
+[node name="Restart" type="Button" parent="UI/GameWon/HBoxContainer"]
+margin_top = 31.0
+margin_right = 640.0
+margin_bottom = 51.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 29 )
+text = "Restart"
+
+[node name="Exit" type="Button" parent="UI/GameWon/HBoxContainer"]
+margin_top = 55.0
+margin_right = 640.0
+margin_bottom = 75.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 29 )
+text = "Exit"
 
 [node name="Fire1Bar" type="ProgressBar" parent="UI"]
 anchor_top = 1.0
@@ -231,10 +309,13 @@ margin_left = 2.59566
 margin_top = -3.30359
 margin_right = 134.596
 margin_bottom = 1.69641
-custom_fonts/font = ExtResource( 29 )
+custom_fonts/font = ExtResource( 32 )
 custom_colors/font_color = Color( 0.117647, 0.0823529, 0.14902, 1 )
 text = "Bullet"
 valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Fire2Bar" type="ProgressBar" parent="UI"]
 anchor_top = 1.0
@@ -260,9 +341,38 @@ margin_left = 3.06977
 margin_top = -3.07877
 margin_right = -0.930237
 margin_bottom = 1.92123
-custom_fonts/font = ExtResource( 29 )
+custom_fonts/font = ExtResource( 32 )
 custom_colors/font_color = Color( 0.117647, 0.0823529, 0.14902, 1 )
 text = "Relay Cooldown"
+
+[node name="PlanetsBar" type="ProgressBar" parent="UI"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -240.0
+margin_top = -55.0
+margin_right = -40.0
+margin_bottom = -40.0
+custom_styles/fg = ExtResource( 27 )
+custom_styles/bg = ExtResource( 28 )
+max_value = 8.0
+percent_visible = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="UI/PlanetsBar"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 3.06977
+margin_top = -3.07877
+margin_right = -0.930237
+margin_bottom = 1.92123
+custom_fonts/font = ExtResource( 32 )
+custom_colors/font_color = Color( 0.117647, 0.0823529, 0.14902, 1 )
+text = "Planets Visited"
+align = 2
 
 [node name="Transition" parent="UI" instance=ExtResource( 2 )]
 
@@ -273,7 +383,7 @@ pause_mode = 2
 pause_mode = 1
 
 [node name="Player" parent="Objects" instance=ExtResource( 3 )]
-position = Vector2( 0.0379791, -114.025 )
+position = Vector2( -0.212021, -105.025 )
 collision_mask = 14
 earth_path = NodePath("../Earth")
 fire_bar_1_path = NodePath("../../UI/Fire1Bar")
@@ -299,32 +409,36 @@ script = ExtResource( 22 )
 shape = SubResource( 4 )
 
 [node name="Mercury" parent="Objects" instance=ExtResource( 12 )]
-position = Vector2( 0.0250854, -45.0146 )
+position = Vector2( 0.0250854, -40.3427 )
 collision_layer = 2
 collision_mask = 13
 spin = 0.4
 
 [node name="Orbit" type="Node" parent="Objects/Mercury"]
 script = ExtResource( 6 )
-speed = 0.4
+speed = 0.2
 target_path = NodePath("../../Sun")
 
+[node name="Goal" parent="Objects/Mercury" instance=ExtResource( 33 )]
+
 [node name="Venus" parent="Objects" instance=ExtResource( 16 )]
-position = Vector2( -0.258759, -67.3337 )
+position = Vector2( -0.258759, -81.8228 )
 collision_layer = 2
 collision_mask = 13
 spin = 0.5
 
 [node name="Orbit" type="Node" parent="Objects/Venus"]
 script = ExtResource( 6 )
-speed = 0.06
+speed = 0.15
 target_path = NodePath("../../Sun")
 
+[node name="Goal" parent="Objects/Venus" instance=ExtResource( 33 )]
+
 [node name="Earth" parent="Objects" instance=ExtResource( 8 )]
-position = Vector2( -0.0824509, -97.7459 )
+position = Vector2( -0.0824509, -123.359 )
 collision_layer = 2
 collision_mask = 13
-spin = 0.5
+spin = 0.6
 
 [node name="Orbit" type="Node" parent="Objects/Earth"]
 script = ExtResource( 6 )
@@ -332,7 +446,7 @@ speed = 0.03
 target_path = NodePath("../../Sun")
 
 [node name="Moon" parent="Objects" instance=ExtResource( 10 )]
-position = Vector2( 44.5354, -96.958 )
+position = Vector2( 44.5354, -122.571 )
 collision_layer = 2
 collision_mask = 13
 spin = 0.5
@@ -343,7 +457,7 @@ speed = 0.15
 target_path = NodePath("../../Earth")
 
 [node name="Mars" parent="Objects" instance=ExtResource( 13 )]
-position = Vector2( -0.200012, -135.583 )
+position = Vector2( 0.271927, -147.847 )
 collision_layer = 2
 collision_mask = 13
 spin = 0.6
@@ -352,8 +466,10 @@ spin = 0.6
 script = ExtResource( 6 )
 target_path = NodePath("../../Sun")
 
+[node name="Goal" parent="Objects/Mars" instance=ExtResource( 33 )]
+
 [node name="Jupiter" parent="Objects" instance=ExtResource( 18 )]
-position = Vector2( -0.336456, -160.834 )
+position = Vector2( 0.135483, -173.098 )
 collision_layer = 2
 collision_mask = 13
 spin = 0.3
@@ -363,8 +479,11 @@ script = ExtResource( 6 )
 speed = 0.06
 target_path = NodePath("../../Sun")
 
+[node name="Goal" parent="Objects/Jupiter" instance=ExtResource( 33 )]
+scale = Vector2( 1.25, 1.25 )
+
 [node name="Moon2" parent="Objects" instance=ExtResource( 10 )]
-position = Vector2( 25.2882, -160.851 )
+position = Vector2( 25.7601, -173.115 )
 collision_layer = 2
 collision_mask = 13
 spin = 0.6
@@ -375,7 +494,7 @@ speed = 0.3
 target_path = NodePath("../../Jupiter")
 
 [node name="Moon3" parent="Objects" instance=ExtResource( 10 )]
-position = Vector2( 37.7889, -160.454 )
+position = Vector2( 38.2608, -172.718 )
 collision_layer = 2
 collision_mask = 13
 spin = 0.5
@@ -385,7 +504,7 @@ script = ExtResource( 6 )
 target_path = NodePath("../../Jupiter")
 
 [node name="Saturn" parent="Objects" instance=ExtResource( 15 )]
-position = Vector2( -0.39624, -185.121 )
+position = Vector2( 0.0756991, -197.385 )
 collision_layer = 2
 collision_mask = 13
 spin = 0.6
@@ -395,8 +514,10 @@ script = ExtResource( 6 )
 speed = 0.04
 target_path = NodePath("../../Sun")
 
+[node name="Goal" parent="Objects/Saturn" instance=ExtResource( 33 )]
+
 [node name="Moon4" parent="Objects" instance=ExtResource( 10 )]
-position = Vector2( 31.1147, -185.482 )
+position = Vector2( 31.5866, -197.746 )
 collision_layer = 2
 collision_mask = 13
 spin = 0.5
@@ -407,7 +528,7 @@ speed = 0.23
 target_path = NodePath("../../Saturn")
 
 [node name="Uranus" parent="Objects" instance=ExtResource( 9 )]
-position = Vector2( -0.205566, -206.666 )
+position = Vector2( 0.266373, -223.527 )
 collision_layer = 2
 collision_mask = 13
 spin = 0.6
@@ -416,8 +537,10 @@ spin = 0.6
 script = ExtResource( 6 )
 target_path = NodePath("../../Sun")
 
+[node name="Goal" parent="Objects/Uranus" instance=ExtResource( 33 )]
+
 [node name="Neptune" parent="Objects" instance=ExtResource( 11 )]
-position = Vector2( -0.268913, -227.574 )
+position = Vector2( -0.15052, -248.324 )
 collision_layer = 2
 collision_mask = 13
 spin = 1.0
@@ -426,8 +549,10 @@ spin = 1.0
 script = ExtResource( 6 )
 target_path = NodePath("../../Sun")
 
+[node name="Goal" parent="Objects/Neptune" instance=ExtResource( 33 )]
+
 [node name="Moon5" parent="Objects" instance=ExtResource( 10 )]
-position = Vector2( 35.9969, -228.32 )
+position = Vector2( 36.1153, -249.07 )
 collision_layer = 2
 collision_mask = 13
 spin = 0.7
@@ -438,7 +563,7 @@ speed = 0.3
 target_path = NodePath("../../Neptune")
 
 [node name="Moon6" parent="Objects" instance=ExtResource( 10 )]
-position = Vector2( 58.0456, -228.635 )
+position = Vector2( 58.164, -249.385 )
 collision_layer = 2
 collision_mask = 13
 spin = 1.2
@@ -449,7 +574,7 @@ speed = 0.2
 target_path = NodePath("../../Moon5")
 
 [node name="Pluto" parent="Objects" instance=ExtResource( 14 )]
-position = Vector2( 0.121101, -245.766 )
+position = Vector2( -0.467629, -273.587 )
 collision_layer = 2
 collision_mask = 13
 spin = 0.6
@@ -459,11 +584,19 @@ script = ExtResource( 6 )
 speed = 0.03
 target_path = NodePath("../../Sun")
 
+[node name="Goal" parent="Objects/Pluto" instance=ExtResource( 33 )]
+scale = Vector2( 0.75, 0.75 )
+
 [node name="Effects" type="Node2D" parent="."]
 script = ExtResource( 24 )
 
 [node name="Audio" type="Node2D" parent="."]
 script = ExtResource( 26 )
+
+[node name="ScoreAudio" type="AudioStreamPlayer2D" parent="Audio"]
+position = Vector2( 0, -200 )
+stream = ExtResource( 30 )
+script = ExtResource( 31 )
 
 [node name="DeathZone" parent="." instance=ExtResource( 17 )]
 pause_mode = 1
@@ -476,10 +609,15 @@ objects_path = NodePath("../Objects")
 pause_mode = 1
 objects_path = NodePath("../Objects")
 
-[connection signal="pressed" from="UI/Paused/HBoxContainer/Exit" to="." method="_on_Exit_pressed"]
+[connection signal="timeout" from="DeathDelayTimer" to="." method="_on_DeathDelayTimer_timeout"]
 [connection signal="pressed" from="UI/Paused/HBoxContainer/Resume" to="." method="_on_Resume_pressed"]
-[connection signal="pressed" from="UI/GameOver/HBoxContainer/Exit" to="." method="_on_Exit_pressed"]
+[connection signal="pressed" from="UI/Paused/HBoxContainer/Restart" to="." method="_on_Restart_pressed"]
+[connection signal="pressed" from="UI/Paused/HBoxContainer/Exit" to="." method="_on_Exit_pressed"]
 [connection signal="pressed" from="UI/GameOver/HBoxContainer/Restart" to="." method="_on_Restart_pressed"]
+[connection signal="pressed" from="UI/GameOver/HBoxContainer/Exit" to="." method="_on_Exit_pressed"]
+[connection signal="pressed" from="UI/GameWon/HBoxContainer/Continue" to="." method="_on_Continue_pressed"]
+[connection signal="pressed" from="UI/GameWon/HBoxContainer/Restart" to="." method="_on_Restart_pressed"]
+[connection signal="pressed" from="UI/GameWon/HBoxContainer/Exit" to="." method="_on_Exit_pressed"]
 [connection signal="died" from="Objects/Player" to="." method="_on_Player_died"]
 [connection signal="tree_exiting" from="Objects/Player" to="Objects/Player/Camera2D" method="_on_Player_tree_exiting"]
 [connection signal="area_entered" from="Objects/Sun/DeathZone" to="Objects/Sun/DeathZone" method="_on_DeathZone_area_entered"]

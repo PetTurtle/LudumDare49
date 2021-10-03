@@ -5,8 +5,8 @@
 [ext_resource path="res://objects/Radar/radar.tscn" type="PackedScene" id=3]
 [ext_resource path="res://objects/RadarRood/RadarRood.gd" type="Script" id=4]
 
-[sub_resource type="CircleShape2D" id=1]
-radius = 0.828858
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 2.365, 0.761258 )
 
 [node name="RadarRood" type="Node2D"]
 script = ExtResource( 4 )
@@ -23,10 +23,10 @@ collision_layer = 16
 collision_mask = 14
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttachZone"]
-position = Vector2( 1.92437, -0.00418234 )
+position = Vector2( 0.426063, -0.00418234 )
 shape = SubResource( 1 )
 
 [node name="Radar" parent="." instance=ExtResource( 3 )]
-position = Vector2( -2.97743, 0.0223753 )
+position = Vector2( -2.99497, -0.0477789 )
 
 [connection signal="body_entered" from="AttachZone" to="." method="_on_AttachZone_body_entered"]

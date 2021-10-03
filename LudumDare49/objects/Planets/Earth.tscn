@@ -4,14 +4,14 @@
 [ext_resource path="res://assets/images/planets/earth.png" type="Texture" id=2]
 [ext_resource path="res://components/planet.gd" type="Script" id=3]
 [ext_resource path="res://objects/Radar/radar.tscn" type="PackedScene" id=4]
-[ext_resource path="res://assets/images/radar.png" type="Texture" id=5]
+[ext_resource path="res://assets/images/earth_radar.png" type="Texture" id=5]
 
 [node name="Earth" type="KinematicBody2D"]
 script = ExtResource( 3 )
 
 [node name="radar" type="Sprite" parent="."]
 position = Vector2( -7.06314, 6.21949 )
-rotation = -0.702627
+rotation = -2.27911
 texture = ExtResource( 5 )
 
 [node name="Sprite2D" type="Sprite" parent="."]

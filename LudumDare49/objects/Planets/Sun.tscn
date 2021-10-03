@@ -4,10 +4,10 @@
 [ext_resource path="res://components/sprite_2d.gd" type="Script" id=2]
 [ext_resource path="res://assets/images/planets/sun.png" type="Texture" id=3]
 
-[sub_resource type="Curve" id=2]
+[sub_resource type="Curve" id=1]
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), -1.3676, 0.0, 0, 0 ]
 
-[sub_resource type="Gradient" id=1]
+[sub_resource type="Gradient" id=2]
 offsets = PoolRealArray( 0, 0.545667, 1 )
 colors = PoolColorArray( 0.980392, 0.8, 0.203922, 1, 0.980392, 0.8, 0.203922, 1, 0.945098, 0.376471, 0.286275, 0 )
 
@@ -36,8 +36,8 @@ angle = 180.0
 angle_random = 0.5
 scale_amount = 4.0
 scale_amount_random = 0.5
-scale_amount_curve = SubResource( 2 )
-color_ramp = SubResource( 1 )
+scale_amount_curve = SubResource( 1 )
+color_ramp = SubResource( 2 )
 
 [node name="Sprite2D" type="Sprite" parent="."]
 texture = ExtResource( 3 )

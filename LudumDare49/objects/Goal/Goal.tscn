@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://assets/images/goal.png" type="Texture" id=1]
+[ext_resource path="res://components/sprite_2d.gd" type="Script" id=2]
+[ext_resource path="res://objects/Goal/Goal.gd" type="Script" id=3]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 18.4207
+
+[node name="Goal" type="Area2D"]
+collision_layer = 0
+script = ExtResource( 3 )
+
+[node name="Sprite2D" type="Sprite" parent="."]
+scale = Vector2( 1.25, 1.25 )
+z_index = 3
+texture = ExtResource( 1 )
+script = ExtResource( 2 )
+layer_color = Color( 0.505882, 0.505882, 0.505882, 1 )
+root_path = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[connection signal="body_entered" from="." to="." method="_on_Goal_body_entered"]

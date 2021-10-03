@@ -1,48 +1,75 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://scenes/main_menu.gd" type="Script" id=1]
 [ext_resource path="res://objects/Transition/Transition.tscn" type="PackedScene" id=2]
 [ext_resource path="res://objects/ScreenEffect/ScreenEffect.tscn" type="PackedScene" id=3]
 [ext_resource path="res://resources/fonts/thick.tres" type="DynamicFont" id=4]
 [ext_resource path="res://resources/fonts/mini_square.tres" type="DynamicFont" id=5]
+[ext_resource path="res://objects/Planets/Jupiter.tscn" type="PackedScene" id=6]
+[ext_resource path="res://objects/Planets/Neptune.tscn" type="PackedScene" id=7]
+[ext_resource path="res://objects/Planets/Pluto.tscn" type="PackedScene" id=8]
+[ext_resource path="res://objects/Planets/Mars.tscn" type="PackedScene" id=9]
+[ext_resource path="res://objects/Planets/Saturn.tscn" type="PackedScene" id=10]
+[ext_resource path="res://objects/Planets/Mercury.tscn" type="PackedScene" id=11]
+[ext_resource path="res://objects/Planets/MoonSmall.tscn" type="PackedScene" id=12]
+[ext_resource path="res://objects/Planets/Venus.tscn" type="PackedScene" id=13]
+[ext_resource path="res://objects/Planets/Sun.tscn" type="PackedScene" id=14]
+[ext_resource path="res://objects/Planets/Earth.tscn" type="PackedScene" id=15]
+[ext_resource path="res://objects/Planets/Uranus.tscn" type="PackedScene" id=16]
+[ext_resource path="res://components/orbit.gd" type="Script" id=17]
+[ext_resource path="res://objects/DeathZone/DeathZone.gd" type="Script" id=18]
+
+[sub_resource type="Curve" id=2]
+_data = [ Vector2( 0, 0.0181818 ), 0.0, 4.23197, 0, 0, Vector2( 0.488889, 0.990909 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.0272727 ), -3.62338, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=3]
+offsets = PoolRealArray( 0, 0.00936768, 0.983607, 1 )
+colors = PoolColorArray( 0.184314, 0.152941, 0.215686, 0, 0.184314, 0.152941, 0.215686, 1, 0.184314, 0.152941, 0.215686, 1, 0.184314, 0.152941, 0.215686, 0 )
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 18.4679
 
 [node name="MainMenu" type="Node2D"]
 script = ExtResource( 1 )
 
 [node name="UI" type="CanvasLayer" parent="."]
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UI"]
-anchor_left = 0.5
+[node name="Label" type="Label" parent="UI"]
 anchor_top = 0.5
-anchor_right = 0.5
+anchor_right = 1.0
 anchor_bottom = 0.5
-margin_left = -107.0
-margin_top = -42.0
-margin_right = 107.0
-margin_bottom = 42.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Label" type="Label" parent="UI/VBoxContainer"]
-margin_right = 231.0
-margin_bottom = 18.0
+margin_top = -99.0
+margin_bottom = -65.0
 custom_fonts/font = ExtResource( 4 )
 text = "Mission Control"
 align = 1
 valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI"]
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_top = 34.0
+margin_bottom = 92.0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Play" type="Button" parent="UI/VBoxContainer"]
-margin_top = 22.0
-margin_right = 231.0
-margin_bottom = 42.0
+margin_top = 7.0
+margin_right = 640.0
+margin_bottom = 27.0
 custom_fonts/font = ExtResource( 5 )
 text = "Play"
 
 [node name="Exit" type="Button" parent="UI/VBoxContainer"]
-margin_top = 46.0
-margin_right = 231.0
-margin_bottom = 66.0
+margin_top = 31.0
+margin_right = 640.0
+margin_bottom = 51.0
 custom_fonts/font = ExtResource( 5 )
 text = "Exit"
 
@@ -50,5 +77,246 @@ text = "Exit"
 
 [node name="ScreenEffect" parent="UI" instance=ExtResource( 3 )]
 
+[node name="Stars" type="CPUParticles2D" parent="."]
+pause_mode = 1
+z_index = -10
+amount = 32
+emission_shape = 2
+emission_rect_extents = Vector2( 600, 600 )
+gravity = Vector2( 0, 0 )
+scale_amount = 4.0
+scale_amount_random = 0.5
+scale_amount_curve = SubResource( 2 )
+color = Color( 1, 1, 1, 0.721569 )
+
+[node name="InnerAsteroids" type="CPUParticles2D" parent="."]
+pause_mode = 1
+position = Vector2( -1.73231, -146.436 )
+z_index = -10
+amount = 1000
+lifetime = 1000.0
+preprocess = 35.0
+randomness = 0.1
+emission_shape = 1
+emission_sphere_radius = 8.0
+spread = 0.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 28.0
+angular_velocity = 180.0
+angular_velocity_random = 0.5
+orbit_velocity = -0.03
+angle = 180.0
+angle_random = 0.5
+scale_amount = 10.0
+scale_amount_random = 0.5
+color_ramp = SubResource( 3 )
+
+[node name="OuterAsteroids" type="CPUParticles2D" parent="."]
+pause_mode = 1
+position = Vector2( 0.540337, 404.373 )
+z_index = -10
+amount = 2000
+lifetime = 1000.0
+preprocess = 35.0
+randomness = 0.1
+emission_shape = 1
+emission_sphere_radius = 8.0
+direction = Vector2( -1, 0 )
+spread = 10.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 80.0
+angular_velocity = 180.0
+angular_velocity_random = 0.5
+orbit_velocity = -0.03
+angle = 180.0
+angle_random = 0.5
+scale_amount = 20.0
+scale_amount_random = 0.5
+color_ramp = SubResource( 3 )
+
+[node name="Objects" type="YSort" parent="."]
+pause_mode = 1
+
+[node name="Sun" parent="Objects" instance=ExtResource( 14 )]
+position = Vector2( 0, 0 )
+collision_layer = 2
+collision_mask = 13
+spin = 0.3
+
+[node name="DeathZone" type="Area2D" parent="Objects/Sun"]
+collision_layer = 0
+collision_mask = 29
+script = ExtResource( 18 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Objects/Sun/DeathZone"]
+shape = SubResource( 1 )
+
+[node name="Mercury" parent="Objects" instance=ExtResource( 11 )]
+position = Vector2( 0.0250854, -45.0146 )
+collision_layer = 2
+collision_mask = 13
+spin = 0.4
+
+[node name="Orbit" type="Node" parent="Objects/Mercury"]
+script = ExtResource( 17 )
+speed = 0.4
+target_path = NodePath("../../Sun")
+
+[node name="Venus" parent="Objects" instance=ExtResource( 13 )]
+position = Vector2( -0.258759, -67.3337 )
+collision_layer = 2
+collision_mask = 13
+spin = 0.5
+
+[node name="Orbit" type="Node" parent="Objects/Venus"]
+script = ExtResource( 17 )
+speed = 0.04
+target_path = NodePath("../../Sun")
+
+[node name="Earth" parent="Objects" instance=ExtResource( 15 )]
+position = Vector2( -0.0824509, -97.7459 )
+collision_layer = 2
+collision_mask = 13
+spin = 0.6
+
+[node name="Orbit" type="Node" parent="Objects/Earth"]
+script = ExtResource( 17 )
+speed = 0.03
+target_path = NodePath("../../Sun")
+
+[node name="Moon" parent="Objects" instance=ExtResource( 12 )]
+position = Vector2( 44.5354, -96.958 )
+collision_layer = 2
+collision_mask = 13
+spin = 0.5
+
+[node name="Orbit" type="Node" parent="Objects/Moon"]
+script = ExtResource( 17 )
+speed = 0.15
+target_path = NodePath("../../Earth")
+
+[node name="Mars" parent="Objects" instance=ExtResource( 9 )]
+position = Vector2( -0.200012, -135.583 )
+collision_layer = 2
+collision_mask = 13
+spin = 0.6
+
+[node name="Orbit" type="Node" parent="Objects/Mars"]
+script = ExtResource( 17 )
+target_path = NodePath("../../Sun")
+
+[node name="Jupiter" parent="Objects" instance=ExtResource( 6 )]
+position = Vector2( -0.336456, -160.834 )
+collision_layer = 2
+collision_mask = 13
+spin = 0.3
+
+[node name="Orbit" type="Node" parent="Objects/Jupiter"]
+script = ExtResource( 17 )
+speed = 0.06
+target_path = NodePath("../../Sun")
+
+[node name="Moon2" parent="Objects" instance=ExtResource( 12 )]
+position = Vector2( 25.2882, -160.851 )
+collision_layer = 2
+collision_mask = 13
+spin = 0.6
+
+[node name="Orbit" type="Node" parent="Objects/Moon2"]
+script = ExtResource( 17 )
+speed = 0.3
+target_path = NodePath("../../Jupiter")
+
+[node name="Moon3" parent="Objects" instance=ExtResource( 12 )]
+position = Vector2( 37.7889, -160.454 )
+collision_layer = 2
+collision_mask = 13
+spin = 0.5
+
+[node name="Orbit" type="Node" parent="Objects/Moon3"]
+script = ExtResource( 17 )
+target_path = NodePath("../../Jupiter")
+
+[node name="Saturn" parent="Objects" instance=ExtResource( 10 )]
+position = Vector2( -0.39624, -185.121 )
+collision_layer = 2
+collision_mask = 13
+
+[node name="Orbit" type="Node" parent="Objects/Saturn"]
+script = ExtResource( 17 )
+speed = 0.02
+target_path = NodePath("../../Sun")
+
+[node name="Moon4" parent="Objects" instance=ExtResource( 12 )]
+position = Vector2( 31.1147, -185.482 )
+collision_layer = 2
+collision_mask = 13
+spin = 0.5
+
+[node name="Orbit" type="Node" parent="Objects/Moon4"]
+script = ExtResource( 17 )
+speed = 0.23
+target_path = NodePath("../../Saturn")
+
+[node name="Uranus" parent="Objects" instance=ExtResource( 16 )]
+position = Vector2( -0.205566, -206.666 )
+collision_layer = 2
+collision_mask = 13
+spin = 0.8
+
+[node name="Orbit" type="Node" parent="Objects/Uranus"]
+script = ExtResource( 17 )
+speed = 0.02
+target_path = NodePath("../../Sun")
+
+[node name="Neptune" parent="Objects" instance=ExtResource( 7 )]
+position = Vector2( -0.268913, -227.574 )
+collision_layer = 2
+collision_mask = 13
+spin = 1.0
+
+[node name="Orbit" type="Node" parent="Objects/Neptune"]
+script = ExtResource( 17 )
+speed = 0.01
+target_path = NodePath("../../Sun")
+
+[node name="Moon5" parent="Objects" instance=ExtResource( 12 )]
+position = Vector2( 35.9969, -228.32 )
+collision_layer = 2
+collision_mask = 13
+spin = 0.7
+
+[node name="Orbit" type="Node" parent="Objects/Moon5"]
+script = ExtResource( 17 )
+speed = 0.3
+target_path = NodePath("../../Neptune")
+
+[node name="Moon6" parent="Objects" instance=ExtResource( 12 )]
+position = Vector2( 58.0456, -228.635 )
+collision_layer = 2
+collision_mask = 13
+spin = 1.2
+
+[node name="Orbit" type="Node" parent="Objects/Moon6"]
+script = ExtResource( 17 )
+speed = 0.2
+target_path = NodePath("../../Moon5")
+
+[node name="Pluto" parent="Objects" instance=ExtResource( 8 )]
+position = Vector2( 0.121101, -245.766 )
+collision_layer = 2
+collision_mask = 13
+spin = 0.6
+
+[node name="Orbit" type="Node" parent="Objects/Pluto"]
+script = ExtResource( 17 )
+speed = 0.01
+target_path = NodePath("../../Sun")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+
 [connection signal="pressed" from="UI/VBoxContainer/Play" to="." method="_on_Play_pressed"]
 [connection signal="pressed" from="UI/VBoxContainer/Exit" to="." method="_on_Exit_pressed"]
+[connection signal="area_entered" from="Objects/Sun/DeathZone" to="Objects/Sun/DeathZone" method="_on_DeathZone_area_entered"]
+[connection signal="body_entered" from="Objects/Sun/DeathZone" to="Objects/Sun/DeathZone" method="_on_DeathZone_body_entered"]

@@ -3,7 +3,7 @@ extends Area2D
 var speed := 50
 var separation := 50
 var velocity := Vector2.ZERO
-var health := 4
+var health := 2
 
 onready var bullet_scene := preload("res://objects/EnemyBullet/EnemyBullet.tscn")
 onready var explode_scene := preload("res://objects/Explosions/enemy_die.tscn")

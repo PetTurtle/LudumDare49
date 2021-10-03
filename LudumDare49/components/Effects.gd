@@ -1,7 +1,7 @@
 extends Node2D
 
 
-func _ready():
+func _init():
 	Globals.effects = self
 
 func spawn(effect_scene: PackedScene, point: Vector2, rotation: float = 0):

@@ -1,0 +1,87 @@
+extends RigidBody2D
+
+export(NodePath) var earth_path: NodePath
+export(Color) var active_color: Color
+export(Color) var inactive_color: Color
+
+var active := true
+var fire_1_ready := true
+var fire_2_ready := true
+onready var sprite := $Sprite2D
+onready var controller := $MovementController
+onready var signal_delay := $SignalDelay
+onready var cam := $Camera2D
+onready var fire_1_t = $Fire1
+onready var fire_2_t = $Fire2
+onready var fire_1_s = $Fire1Sound
+onready var fire_2_s = $Fire2Sound
+onready var earth: Planet = get_node(earth_path)
+onready var rood_scene := preload("res://objects/RadarRood/RadarRood.tscn")
+onready var bullet_scene := preload("res://objects/PlayerBullet/PlayerBullet.tscn")
+
+
+func _init():
+	Globals.player = self
+
+func _ready():
+	yield(get_tree().create_timer(0.05), "timeout")
+	global_position = earth.global_position + (Vector2.ONE * earth.radius * 1.5).rotated(earth.rotation + PI/2)
+	rotation = earth.rotation + PI/1.25
+	cam.smoothing_enabled = false
+	yield(get_tree().create_timer(0.1), "timeout")
+	cam.smoothing_enabled = true
+
+func _process(delta):
+	if controller.active == false:
+		return
+	
+	if Input.is_action_pressed("fire_1") and fire_1_ready:
+		var bullet = bullet_scene.instance()
+		get_tree().current_scene.objects.add_child(bullet)
+		var shoot_dir := to_global(Vector2(1, 0)) - global_position
+		bullet.global_position = global_position + shoot_dir * 6
+		bullet.linear_velocity = linear_velocity + shoot_dir * 120
+		bullet.rotation = rotation
+		fire_1_ready = false
+		fire_1_t.start()
+		fire_1_s.play()
+	
+	if Input.is_action_pressed("fire_2") and fire_2_ready:
+		
+		var rood: Node2D = rood_scene.instance()
+		get_tree().current_scene.objects.add_child(rood)
+		var shoot_dir := to_global(Vector2(1, 0)) - global_position
+		rood.global_position = global_position + shoot_dir * 6
+		rood.launch_velocity = linear_velocity + shoot_dir * 60
+		rood.rotation = rotation
+		fire_2_ready = false
+		fire_2_t.start()
+		fire_2_s.play()
+
+func set_radar_signal(state: bool):
+	if active != state:
+		active = state
+		if state:
+			sprite.modulate = active_color
+			controller.active = state
+		else:
+			signal_delay.start()
+
+func damage(amount: int):
+	queue_free()
+
+func _on_SignalDelay_timeout():
+	if active == false:
+		sprite.modulate = inactive_color
+		controller.active = false
+
+func _exit_tree():
+	Globals.player = null
+
+
+func _on_Fire1_timeout():
+	fire_1_ready = true
+
+
+func _on_Fire2_timeout():
+	fire_2_ready = true

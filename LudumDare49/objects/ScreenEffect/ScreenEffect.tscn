@@ -1,0 +1,33 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://resources/shaders/crt.gdshader" type="Shader" id=1]
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = ExtResource( 1 )
+shader_param/shake_power = 0.03
+shader_param/shake_rate = 0.2
+shader_param/shake_speed = 5.0
+shader_param/shake_block_size = 30.5
+shader_param/shake_color_rate = 0.01
+shader_param/scanlines_opacity = 0.1
+shader_param/scanlines_width = 0.1
+shader_param/resolution = Vector2( 480, 270 )
+shader_param/roll = true
+shader_param/roll_speed = 0.5
+shader_param/roll_size = 15.0
+shader_param/roll_variation = 3.586
+shader_param/distort_intensity = 0.003
+shader_param/noise_opacity = 0.4
+shader_param/noise_speed = 5.0
+shader_param/static_noise_intensity = 0.0
+shader_param/aberration = 0.005
+shader_param/warp_amount = 1.0
+
+[node name="ScreenEffect" type="ColorRect"]
+material = SubResource( 2 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}

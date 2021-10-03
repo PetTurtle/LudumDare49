@@ -1,0 +1,56 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://components/sprite_2d.gd" type="Script" id=1]
+[ext_resource path="res://assets/images/player.png" type="Texture" id=2]
+[ext_resource path="res://components/movement_controller.gd" type="Script" id=3]
+[ext_resource path="res://objects/Player/player.gd" type="Script" id=4]
+[ext_resource path="res://assets/audio/fire.wav" type="AudioStream" id=5]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 2.5
+
+[node name="Player" type="RigidBody2D"]
+collision_mask = 15
+mode = 2
+linear_damp = 2.0
+script = ExtResource( 4 )
+active_color = Color( 1, 1, 1, 1 )
+inactive_color = Color( 0.560784, 0.560784, 0.560784, 1 )
+
+[node name="MovementController" type="Node" parent="."]
+script = ExtResource( 3 )
+move_speed = 100.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -0.5, -0.5 )
+shape = SubResource( 1 )
+
+[node name="Sprite2D" type="Sprite" parent="."]
+texture = ExtResource( 2 )
+script = ExtResource( 1 )
+layer_color = Color( 0.372549, 0.372549, 0.372549, 1 )
+root_path = NodePath("..")
+
+[node name="SignalDelay" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
+[node name="Fire1" type="Timer" parent="."]
+process_mode = 0
+wait_time = 0.25
+one_shot = true
+
+[node name="Fire2" type="Timer" parent="."]
+process_mode = 0
+wait_time = 3.0
+one_shot = true
+
+[node name="Fire1Sound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 5 )
+
+[node name="Fire2Sound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 5 )
+
+[connection signal="timeout" from="SignalDelay" to="." method="_on_SignalDelay_timeout"]
+[connection signal="timeout" from="Fire1" to="." method="_on_Fire1_timeout"]
+[connection signal="timeout" from="Fire2" to="." method="_on_Fire2_timeout"]

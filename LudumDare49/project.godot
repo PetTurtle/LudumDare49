@@ -1,0 +1,140 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "LightOccluder2D",
+"class": "CircleOccluder",
+"language": "GDScript",
+"path": "res://components/circle_occluder.gd"
+}, {
+"base": "Node",
+"class": "MovementController",
+"language": "GDScript",
+"path": "res://components/movement_controller.gd"
+}, {
+"base": "Node",
+"class": "Orbit",
+"language": "GDScript",
+"path": "res://components/orbit.gd"
+}, {
+"base": "KinematicBody2D",
+"class": "Planet",
+"language": "GDScript",
+"path": "res://components/planet.gd"
+}, {
+"base": "Sprite",
+"class": "Sprite2D",
+"language": "GDScript",
+"path": "res://components/sprite_2d.gd"
+} ]
+_global_script_class_icons={
+"CircleOccluder": "",
+"MovementController": "",
+"Orbit": "",
+"Planet": "",
+"Sprite2D": ""
+}
+
+[application]
+
+config/name="LudumDare49"
+run/main_scene="res://scenes/main_menu.tscn"
+boot_splash/image="res://assets/images/spash.png"
+boot_splash/fullsize=false
+boot_splash/use_filter=false
+boot_splash/bg_color=Color( 0.117647, 0.0823529, 0.14902, 1 )
+config/icon="res://assets/icon.png"
+
+[autoload]
+
+Globals="*res://singletons/globals.gd"
+SceneStack="*res://singletons/scene_stack.gd"
+Radars="*res://singletons/radars.gd"
+Tracker="*res://singletons/Tracker.gd"
+
+[display]
+
+window/size/width=640
+window/size/height=360
+window/stretch/mode="viewport"
+window/stretch/aspect="expand"
+
+[global]
+
+splash=false
+
+[gui]
+
+theme/custom="res://resources/theme.tres"
+theme/custom_font="res://resources/fonts/pixel.tres"
+
+[input]
+
+move_up={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":87,"unicode":0,"echo":false,"script":null)
+ ]
+}
+move_down={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":83,"unicode":0,"echo":false,"script":null)
+ ]
+}
+move_left={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":65,"unicode":0,"echo":false,"script":null)
+ ]
+}
+move_right={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":68,"unicode":0,"echo":false,"script":null)
+ ]
+}
+fire_1={
+"deadzone": 0.5,
+"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":1,"pressed":false,"doubleclick":false,"script":null)
+ ]
+}
+fire_2={
+"deadzone": 0.5,
+"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":2,"pressed":false,"doubleclick":false,"script":null)
+ ]
+}
+pause={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777217,"unicode":0,"echo":false,"script":null)
+ ]
+}
+explode={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":32,"unicode":0,"echo":false,"script":null)
+ ]
+}
+
+[layer_names]
+
+2d_physics/layer_1="Player"
+2d_physics/layer_2="Planets"
+2d_physics/layer_3="Asteroids"
+2d_physics/layer_4="Enemies"
+
+[physics]
+
+common/enable_pause_aware_picking=true
+2d/default_gravity=0
+2d/default_gravity_vector=Vector2( 0, 0 )
+2d/default_linear_damp=0.0
+2d/default_angular_damp=0.0
+
+[rendering]
+
+environment/default_clear_color=Color( 0.117647, 0.0823529, 0.14902, 1 )
+environment/default_environment="res://default_env.tres"
+quality/dynamic_fonts/use_oversampling=false

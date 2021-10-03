@@ -1,0 +1,25 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://components/sprite_2d.gd" type="Script" id=1]
+[ext_resource path="res://assets/images/planets/earth.png" type="Texture" id=2]
+[ext_resource path="res://components/planet.gd" type="Script" id=3]
+[ext_resource path="res://objects/Radar/radar.tscn" type="PackedScene" id=4]
+[ext_resource path="res://assets/images/radar.png" type="Texture" id=5]
+
+[node name="Earth" type="KinematicBody2D"]
+script = ExtResource( 3 )
+
+[node name="radar" type="Sprite" parent="."]
+position = Vector2( -7.06314, 6.21949 )
+rotation = -0.702627
+texture = ExtResource( 5 )
+
+[node name="Sprite2D" type="Sprite" parent="."]
+texture = ExtResource( 2 )
+script = ExtResource( 1 )
+layer_color = Color( 0.603922, 0.603922, 0.603922, 1 )
+root_path = NodePath("..")
+
+[node name="Radar" parent="." instance=ExtResource( 4 )]
+position = Vector2( -9.35355, 8.06567 )
+on_earth = true

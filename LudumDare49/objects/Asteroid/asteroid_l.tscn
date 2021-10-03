@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://components/sprite_2d.gd" type="Script" id=1]
+[ext_resource path="res://objects/Asteroid/asteroid.gd" type="Script" id=2]
+[ext_resource path="res://assets/images/asteroid_large.png" type="Texture" id=3]
+
+[node name="Asteroid" type="RigidBody2D"]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource( 2 )
+c_polygon_path = NodePath("CollisionPolygon2D")
+
+[node name="Sprite2D" type="Sprite" parent="."]
+texture = ExtResource( 3 )
+script = ExtResource( 1 )
+layer_color = Color( 0.635294, 0.635294, 0.635294, 1 )
+root_path = NodePath("..")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2( 0.052557, 0.210224 )
+build_mode = 1
+polygon = PoolVector2Array( -3.04542, 6.38906, 0.738615, 6.49417, 6.78256, 1.76413, 6.94023, -1.96736, 1.52696, -6.96018, -4.67466, -6.85507, -7.88058, -3.64915, -7.88058, -0.495785, -5.56811, 3.60359 )

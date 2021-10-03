@@ -1,7 +1,7 @@
 extends Area2D
 
-var speed := 15
-var separation := 16
+var speed := 50
+var separation := 50
 var velocity := Vector2.ZERO
 var health := 4
 

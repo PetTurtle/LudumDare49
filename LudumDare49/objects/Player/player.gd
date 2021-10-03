@@ -3,6 +3,8 @@ extends RigidBody2D
 signal died
 
 export(NodePath) var earth_path: NodePath
+export(NodePath) var fire_bar_1_path: NodePath
+export(NodePath) var fire_bar_2_path: NodePath
 export(Color) var active_color: Color
 export(Color) var inactive_color: Color
 
@@ -17,6 +19,8 @@ onready var fire_1_t = $Fire1
 onready var fire_2_t = $Fire2
 onready var fire_1_s = $Fire1Sound
 onready var fire_2_s = $Fire2Sound
+onready var fire_bar_1: ProgressBar = get_node(fire_bar_1_path)
+onready var fire_bar_2: ProgressBar = get_node(fire_bar_2_path)
 onready var earth: Planet = get_node(earth_path)
 onready var rood_scene := preload("res://objects/RadarRood/RadarRood.tscn")
 onready var bullet_scene := preload("res://objects/PlayerBullet/PlayerBullet.tscn")
@@ -35,6 +39,11 @@ func _ready():
 	cam.smoothing_enabled = true
 
 func _process(delta):
+	fire_bar_1.max_value = fire_1_t.wait_time
+	fire_bar_1.value = fire_1_t.wait_time - fire_1_t.time_left
+	fire_bar_2.max_value = fire_2_t.wait_time
+	fire_bar_2.value = fire_2_t.wait_time -fire_2_t.time_left
+	
 	if controller.active == false:
 		return
 	

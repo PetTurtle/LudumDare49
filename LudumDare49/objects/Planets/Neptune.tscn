@@ -12,3 +12,23 @@ texture = ExtResource( 3 )
 script = ExtResource( 2 )
 layer_color = Color( 0.603922, 0.603922, 0.603922, 1 )
 root_path = NodePath("..")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2( -0.385712, -12.0735 )
+amount = 32
+lifetime = 5.0
+preprocess = 5.0
+direction = Vector2( -1, 0 )
+spread = 0.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 15.0
+angular_velocity = 180.0
+angular_velocity_random = 0.5
+orbit_velocity = 0.2
+angle = 180.0
+angle_random = 0.5
+scale_amount = 3.0
+scale_amount_random = 0.8
+color = Color( 0.239216, 0.898039, 0.960784, 1 )
+hue_variation = 0.05
+hue_variation_random = 0.5

@@ -1,8 +1,15 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://components/planet.gd" type="Script" id=1]
 [ext_resource path="res://components/sprite_2d.gd" type="Script" id=2]
 [ext_resource path="res://assets/images/planets/sun.png" type="Texture" id=3]
+
+[sub_resource type="Curve" id=2]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), -1.3676, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=1]
+offsets = PoolRealArray( 0, 0.545667, 1 )
+colors = PoolColorArray( 0.980392, 0.8, 0.203922, 1, 0.980392, 0.8, 0.203922, 1, 0.945098, 0.376471, 0.286275, 0 )
 
 [node name="Sun" type="KinematicBody2D"]
 position = Vector2( 172.305, 58.8086 )
@@ -11,6 +18,26 @@ __meta__ = {
 "_edit_group_": true
 }
 radius = 16
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+amount = 18
+preprocess = 1.0
+emission_shape = 1
+emission_sphere_radius = 16.45
+direction = Vector2( 0, 0 )
+spread = 180.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 10.0
+angular_velocity = 180.0
+angular_velocity_random = 0.5
+orbit_velocity = 0.1
+orbit_velocity_random = 0.5
+angle = 180.0
+angle_random = 0.5
+scale_amount = 4.0
+scale_amount_random = 0.5
+scale_amount_curve = SubResource( 2 )
+color_ramp = SubResource( 1 )
 
 [node name="Sprite2D" type="Sprite" parent="."]
 texture = ExtResource( 3 )

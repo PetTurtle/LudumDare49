@@ -21,7 +21,7 @@ func _process(delta):
 func _get_sight_dist(scale: bool):
 	if scale:
 		return texture_scale * sight
-	return sight
+	return sight * 0.5
 
 func can_see(node: Node2D, scale: bool = false) -> bool:
 	var result = space_state.intersect_ray(self.global_position, node.global_position, [], 14)
